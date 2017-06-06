@@ -26,9 +26,35 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let item of actions">
-      {{item.name}}
-    </ion-item>
-  </ion-list>
+  <!-- list all database elements -->
+  <ion-card *ngFor="let robot of convert2Array(robots.data)">
+    <ion-card-header>
+      {{robot.name}}
+    </ion-card-header>
+    <ion-card-content>
+      {{robot.tvShow}}
+      <button (click)="deleteDocument($event, robot)">Delete</button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Robot Name</ion-label>
+          <ion-input clearInput [(ngModel)]="robotName"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Which TV Show?</ion-label>
+          <ion-input type="text" [(ngModel)]="robotTVShow"></ion-input> 
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+    <ion-card-content>
+      <button (click)="addDocument()">Add</button>
+      <button (click)="saveAll()">Save All</button>
+      <button (click)="importAll()">Import All</button>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>

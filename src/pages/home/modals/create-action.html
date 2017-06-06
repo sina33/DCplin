@@ -7,11 +7,11 @@
 <ion-content padding>
 	<ion-list>
 		<ion-item>
-			<ion-label >Name</ion-label>
-			<ion-input type="text"></ion-input>
+			<ion-label>Name</ion-label>
+			<ion-input type="text" autofocus maxlength='7' [(ngModel)]="action.name"></ion-input>
 		</ion-item>
 		<ion-item>
-			<ion-label >Type</ion-label>
+			<ion-label>Type</ion-label>
 			<ion-select [(ngModel)]="actionType" interface="popover">
 				<ion-option selected value="bool">Boolean</ion-option>
 				<ion-option value="num">Number</ion-option>
@@ -19,8 +19,24 @@
 		</ion-item>
 		<ion-item>
 			<ion-label>Score</ion-label>
-			<ion-input type="number" [disabled]="actionType == 'bool'"></ion-input>
+			<ion-input type="number" [disabled]="actionType == 'bool'" [(ngModel)]="action.do_score"></ion-input>
 		</ion-item>
 
 	</ion-list>
 </ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<!--<ion-title>Footer</ion-title>-->
+		<ion-item>
+			<button ion-button item-left (click)="onCancel()">
+				<ion-icon name='close'></ion-icon>
+				Cancel
+			</button>
+			<button ion-button item-right (click)="onSubmit()">
+				<ion-icon name='checkmark'></ion-icon> 
+				Submit
+			</button>
+		</ion-item>
+	</ion-toolbar>
+</ion-footer>
