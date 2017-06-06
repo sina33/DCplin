@@ -1,23 +1,22 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
+import LocalForage from "localforage";
+import Loki from "lokijs"
 
-declare var require: any;
-var loki = require('lokijs');
-var localforage = require('localforage')
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  db: any;      // LokiJS database
-  robots: any;  // our DB's document collection object
+  db: Loki;      // LokiJS database
+  robots: LokiCollection<Object>;  // our DB's document collection object
   robotName: string;
   robotTVShow: string;
 
   constructor(public navCtrl: NavController, private modalCtrl: ModalController) {
 
-    this.db = new loki('robotsOnTV');
+    this.db = new Loki('robotsOnTV');
     this.robots = this.db.addCollection('robots');
 
     this.robots.insert({ name: 'Bender', tvShow: 'Futurama' });
@@ -52,7 +51,7 @@ export class HomePage {
   }
 
   saveAll() {
-    localforage.setItem('storeKey', JSON.stringify(this.db)).then( function(value){
+    LocalForage.setItem('storeKey', JSON.stringify(this.db)).then( function(value){
       console.log('database successfully saved')
     }).catch(function(err){
       console.log('error while saving: ' + err)
@@ -61,9 +60,9 @@ export class HomePage {
 
   importAll() {
     var self = this
-    localforage.getItem('storeKey').then(function(value) {
+    LocalForage.getItem('storeKey').then(function(value) {
       console.log('the full database has been retreived')
-      self.db.loadJSON(value)
+      self.db.loadJSON(value as string)
       self.robots = self.db.getCollection('robots')
     }).catch(function(err){
       console.log('error importing database: ' + err)
