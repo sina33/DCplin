@@ -24,6 +24,10 @@ export class HomePage {
     this.todayScore = 0
     // this.dummyObjectInsertDatabase()
     this.importAll()
+    let self = this
+    setTimeout(function () {
+      self.calculateTodaysScore()
+    }, 300);
   }
 
 
@@ -65,6 +69,7 @@ export class HomePage {
 
   createAction() {
     let actionModal = this.modalCtrl.create(CreateAction, { mode: 'create' })
+
     actionModal.present()
 
     actionModal.onDidDismiss(data => {
@@ -80,13 +85,16 @@ export class HomePage {
   modifyAction(actionObj) {
     let actionModal = this.modalCtrl.create(CreateAction, { mode: 'edit', action: actionObj })
     actionModal.present()
-
     actionModal.onDidDismiss(data => {
       if (data) {
-        let actionObj = JSON.parse(data) as Action
-        this.actions.update(actionObj)
-        console.log("inserted document: ", this.actions.get(this.actions.data.length));
-        console.log("robots.data.length: " + this.actions.data.length);
+        if (data.del) {
+          this.actions.remove(data.loki)
+        } else {
+          let actionObj = JSON.parse(data)
+          this.actions.update(actionObj)
+          console.log("inserted document: ", this.actions.get(this.actions.data.length));
+          console.log("robots.data.length: " + this.actions.data.length);
+        }
       }
     })
     this.calculateTodaysScore()
@@ -120,9 +128,9 @@ export class HomePage {
   calculateTodaysScore() {
     this.todayScore = 0
     this.actions.data.forEach(elem => {
-      // console.log(elem)
+      console.log(elem)
       if ((elem as Action).state == 1) {
-        this.todayScore += Number( (elem as Action).do_score ) 
+        this.todayScore += Number((elem as Action).do_score)
       }
     })
   }
