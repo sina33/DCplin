@@ -7,18 +7,26 @@
     <ion-grid>
       <ion-row>
         <ion-col>
-          <button ion-button icon-left (click)="createAction()">
-            <ion-icon name="add"></ion-icon>
-            add action
+          <button ion-button outline icon-right (click)="createAction()" text-capitalize>
+            Add Action
+            <ion-icon name="add-circle"></ion-icon>
           </button>
         </ion-col>
         <ion-col>
-          <button ion-button icon-left>
-            <ion-icon name="add"></ion-icon>
-            add goal
+          <button ion-button outline icon-right (click)="createGoal()" text-capitalize>
+            Add Goal
+            <ion-icon name="football"></ion-icon>
           </button>
         </ion-col>
-        <ion-col>
+        <ion-col col-auto align-self-end>
+          <button ion-button block icon-right (click)="saveAll()" text-capitalize>
+            Save All
+            <ion-icon name="cloud-upload"></ion-icon>
+            </button>
+          <!--<button ion-button small block outline icon-right (click)="importAll()" text-capitalize>
+            Import All
+            <ion-icon name="cloud-download"></ion-icon>
+            </button>-->
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -27,34 +35,30 @@
 
 <ion-content padding>
   <!-- list all database elements -->
-  <ion-card *ngFor="let robot of convert2Array(robots.data)">
+  <ion-card *ngFor="let action of convert2Array(actions.data)">
     <ion-card-header>
-      {{robot.name}}
+      <ion-chip [color]="state2color(action.state)">
+        <ion-icon large [name]='state2icon(action.state)' (click)="changeActionState(action)"></ion-icon>
+        <ion-label>{{action.name}}</ion-label>
+      </ion-chip>
+      
+      <ion-icon float-right padding-horizontal name='settings' (click)="modifyAction(action)"></ion-icon>
+      <ion-badge float-end>{{action.do_score}}</ion-badge>
     </ion-card-header>
-    <ion-card-content>
-      {{robot.tvShow}}
-      <button (click)="deleteDocument($event, robot)">Delete</button>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <ion-label floating>Robot Name</ion-label>
-          <ion-input clearInput [(ngModel)]="robotName"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label floating>Which TV Show?</ion-label>
-          <ion-input type="text" [(ngModel)]="robotTVShow"></ion-input> 
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-    <ion-card-content>
-      <button (click)="addDocument()">Add</button>
-      <button (click)="saveAll()">Save All</button>
-      <button (click)="importAll()">Import All</button>
-    </ion-card-content>
+    <!--<ion-card-content>
+      <ion-item>
+  
+      </ion-item>
+    </ion-card-content>-->
   </ion-card>
 
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar text-center>
+    <ion-chip>
+      <ion-icon name="bicycle"></ion-icon>
+      <ion-label>Today's Score: {{todayScore}}</ion-label>
+    </ion-chip>
+  </ion-toolbar>
+</ion-footer>

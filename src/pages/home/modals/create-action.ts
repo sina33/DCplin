@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 
-import { NativeStorage } from '@ionic-native/native-storage';
 import { Action } from "../../../models/action";
 
 @Component({
@@ -9,10 +8,16 @@ import { Action } from "../../../models/action";
   templateUrl: 'create-action.html'
 })
 export class CreateAction {
-  action: Action 
-  actionType: string = 'bool'
-  constructor(params: NavParams, private viewCtrl: ViewController) { 
-    this.action = new Action('', 1)
+  action: Action
+  mode: string
+  // actionType: string = 'bool'
+  constructor(params: NavParams, private viewCtrl: ViewController) {
+    this.mode = params.get('mode')
+    if (this.mode == 'create') {
+      this.action = new Action('', 1)
+    } else {
+      this.action = params.get('action')
+    }
   }
 
   onCancel(): void {
@@ -20,7 +25,7 @@ export class CreateAction {
   }
 
   onSubmit(): void {
-    this.viewCtrl.dismiss( JSON.stringify(this.action) )
+    this.viewCtrl.dismiss(JSON.stringify(this.action))
   }
 
 }

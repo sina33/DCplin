@@ -1,6 +1,6 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>Home</ion-title>
+		<ion-title>{{mode}} Action</ion-title>
 	</ion-navbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
 		</ion-item>
 		<ion-item>
 			<ion-label>Type</ion-label>
-			<ion-select [(ngModel)]="actionType" interface="popover">
+			<ion-select [(ngModel)]="action.type" interface="popover">
 				<ion-option selected value="bool">Boolean</ion-option>
 				<ion-option value="num">Number</ion-option>
 			</ion-select>
@@ -21,7 +21,10 @@
 			<ion-label>Score</ion-label>
 			<ion-input type="number" [disabled]="actionType == 'bool'" [(ngModel)]="action.do_score"></ion-input>
 		</ion-item>
-
+		<ion-item>
+			<button ion-button outline>{{action.categories}}</button>
+			<ion-icon color='danger' (click)="deleteDocument($event, action)"></ion-icon>
+		</ion-item>
 	</ion-list>
 </ion-content>
 
